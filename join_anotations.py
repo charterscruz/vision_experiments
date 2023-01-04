@@ -39,7 +39,7 @@ cv2.namedWindow('merged_annot', cv2.WINDOW_AUTOSIZE)
 cv2.imshow('0', img1_annot2)
 cv2.imshow('1', img1_annot0)
 cv2.imshow('2', img1_annot1)
-
+qqq
 cv2.waitKey(0)
 
 img1_semanticseg = img1_annot0 | img1_annot1 | img1_annot2
