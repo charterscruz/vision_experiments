@@ -1,10 +1,15 @@
 import rosbag
 import matplotlib.pyplot as plt
-import numpy as np
+from matplotlib.animation import FuncAnimation
 
-filename = '/media/cruz/data/datasets/bag_files/log_test2/2022-08-25-15-02-05.bag'
+
+filename = '/media/cruz/data/datasets/bag_files/flight_test_06012023/flight_2_3/2022-08-25-15-18-35.bag'
 # Open the bag file
 bag = rosbag.Bag(filename)
+
+def animate(i):
+    graph.set_data(x[:i+1], y[:i+1])
+    return graph
 
 # Create a dictionary to store the data for each topic
 topic_data = {}
@@ -53,6 +58,10 @@ for topic, data in topic_data.items():
         ax.plot(q_x)
         ax.plot(q_y)
         ax.plot(q_z)
+        print('len(q_x)', len(q_x))
+        print('len(q_y)', len(q_y))
+        print('len(q_z)', len(q_z))
+        print('len(q_w)', len(q_w))
         ax.set_title(topic)
         ax.legend(['quarternion w', 'quarternion x', 'quarternion y', 'quarternion z'])
 
@@ -91,6 +100,15 @@ for topic, data in topic_data.items():
         ax.plot(orient_x) 
         ax.plot(orient_y) 
         ax.plot(orient_z)
+        print('len ang_vel_x: ', len(ang_vel_x))
+        print('len ang_vel_y: ', len(ang_vel_y))
+        print('len ang_vel_z: ', len(ang_vel_z))
+        print('len lin_ace_x: ', len(lin_ace_x))
+        print('len lin_ace_y: ', len(lin_ace_y))
+        print('len lin_ace_z: ', len(lin_ace_z))
+        print('len orient_x: ', len(orient_x))
+        print('len orient_y: ', len(orient_y))
+        print('len orient_z: ', len(orient_z))
         # ax.plot(lin_ace_x, lin_ace_y, lin_ace_z)
         # ax.plot(orient_x, orient_y, orient_z)
         ax.set_title(topic)
@@ -107,14 +125,16 @@ for topic, data in topic_data.items():
             latitude.append(d.latitude)
             longitude.append(d.longitude)
             altitude.append(d.altitude)
-       
-        ax.plot(latitude)
-        ax.plot(longitude)
-        ax.plot(altitude)
+
+        graph, = plt.plot([], [], '.')
+
+        # ax.plot(latitude)
+        # ax.plot(longitude)
+        # ax.plot(altitude)
+        ax.plot(latitude, longitude)
 
         ax.set_title(topic)
         ax.legend(['latitude', 'longitude', 'altitude'])
-            
 
     elif topic == '/dji_sdk/height_above_takeoff': # TODO 
         height_above_to =[]
